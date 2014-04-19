@@ -1,13 +1,17 @@
 package pdorobisz.trello.internal
 
+import spray.http.Uri
+
 class UrlBuilder private(appKey: String, token: String) {
 
-  def build(resource: String, id: String): String = s"${UrlBuilder.url}/${UrlBuilder.apiVersion}/$resource/$id?key=$appKey&token=$token"
+  import UrlBuilder._
+
+  def build(resource: String, id: String): Uri = Uri(s"$apiUrl/$apiVersion/$resource/$id?key=$appKey&token=$token")
 }
 
 object UrlBuilder {
-  private val url = "https://api.trello.com"
-  private val apiVersion = "1"
+  val apiUrl = "https://api.trello.com"
+  val apiVersion = "1"
 
   def apply(appKey: String, token: String): UrlBuilder = new UrlBuilder(appKey, token)
 }
