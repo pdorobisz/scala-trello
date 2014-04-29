@@ -4,12 +4,24 @@ import pdorobisz.trello.data.Card
 
 object TestCardData {
 
-  val card = new Card("test card", "this is a test card")
+  val card = new Card(
+    id = "sdf987u3j",
+    closed = false,
+    name = "test card",
+    desc = "this is a test card",
+    idBoard = "798dsf37989",
+    idChecklists = Seq("qw3", "er3"),
+    idList = "6yui9087y",
+    idMembers = Seq("iu876tyu"),
+    idShort = 78,
+    manualCoverAttachment = false,
+    pos = 22345)
+
 
   val json =
     s"""
       {
-      |	"id" : "sdf987u3j",
+      |	"id" : "${card.id}",
       |	"badges" : {
       |		"votes" : 0,
       |		"viewingMemberVoted" : false,
@@ -23,18 +35,18 @@ object TestCardData {
       |		"due" : null
       |	},
       |	"checkItemStates" : [],
-      |	"closed" : false,
+      |	"closed" : ${card.closed},
       |	"dateLastActivity" : "2013-06-21T08:00:21.412Z",
       |	"desc" : "${card.desc}",
       |	"descData" : null,
       |	"due" : null,
-      |	"idBoard" : "798dsf37989",
-      |	"idChecklists" : [],
-      |	"idList" : "6yui9087y",
-      |	"idMembers" : [],
-      |	"idShort" : 78,
+      |	"idBoard" : "${card.idBoard}",
+      |	"idChecklists" : ["${card.idChecklists(0)}", "${card.idChecklists(1)}"],
+      |	"idList" : "${card.idList}",
+      |	"idMembers" : ["${card.idMembers(0)}"],
+      |	"idShort" : ${card.idShort},
       |	"idAttachmentCover" : null,
-      |	"manualCoverAttachment" : false,
+      |	"manualCoverAttachment" : ${card.manualCoverAttachment},
       |	"labels" : [{
       |			"color" : "yellow",
       |			"name" : "yellow label name"
@@ -44,7 +56,7 @@ object TestCardData {
       |		}
       |	],
       |	"name" : "${card.name}",
-      |	"pos" : 123345,
+      |	"pos" : ${card.pos},
       |	"shortUrl" : "https://trello.com/c/uNd3s",
       |	"url" : "https://trello.com/c/uNd3s/78-test-card",
       |	"membersVoted" : []
