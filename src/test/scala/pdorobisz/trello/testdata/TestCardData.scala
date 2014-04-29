@@ -4,7 +4,7 @@ import pdorobisz.trello.data.Card
 
 object TestCardData {
 
-  val card = Card("test card", "this is a test card")
+  val card = new Card("test card", "this is a test card")
 
   val json =
     s"""

@@ -6,12 +6,10 @@ import scala.concurrent.Future
 import spray.client.pipelining._
 import spray.http.HttpRequest
 import pdorobisz.trello.data._
-import spray.httpx.SprayJsonSupport
 
 class Trello(appKey: String, token: String, implicit val actorSystem: ActorSystem = ActorSystem()) {
 
   import pdorobisz.trello.internal.TrelloJsonProtocol._
-  import SprayJsonSupport._
   import actorSystem.dispatcher
 
   val urlBuilder = UrlBuilder(appKey, token)
