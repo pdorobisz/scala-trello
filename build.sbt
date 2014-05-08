@@ -11,9 +11,12 @@ libraryDependencies ++= {
   val sprayVersion = "1.3.1"
   Seq(
     "com.fasterxml.jackson.core" % "jackson-core" % "2.3.3",
-    "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.2.2",
-	"com.fasterxml.jackson.core" % "jackson-databind" % "2.2.2",
+    "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.3.3",
+	"com.fasterxml.jackson.core" % "jackson-databind" % "2.3.3",
+	"com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.3.3",
 	"org.scalaequals" %% "scalaequals-core" % "1.2.0",
+	"joda-time" % "joda-time" % "2.3",
+	"org.joda" % "joda-convert" % "1.6",
     "io.spray" % "spray-client" % sprayVersion,
     //"io.spray" % "spray-testkit" % sprayVersion % "test",
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,

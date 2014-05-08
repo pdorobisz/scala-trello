@@ -1,10 +1,13 @@
 package pdorobisz.trello.data
 
 import org.scalaequals.ScalaEquals
+import org.joda.time.DateTime
+import pdorobisz.trello.util.DateUtil
 
 class Card(
             val id: String = "",
             val closed: Boolean = false,
+            val dateLastActivity: DateTime = DateUtil.currentDate,
             val name: String = "",
             val desc: String = "",
             val idBoard: String = "",

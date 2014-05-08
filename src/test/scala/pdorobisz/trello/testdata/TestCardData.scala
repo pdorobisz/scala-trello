@@ -1,12 +1,14 @@
 package pdorobisz.trello.testdata
 
 import pdorobisz.trello.data.Card
+import org.joda.time.DateTime
 
 object TestCardData {
 
   val card = new Card(
     id = "sdf987u3j",
     closed = false,
+    dateLastActivity = DateTime.parse("2013-06-21T08:00:21.412Z"),
     name = "test card",
     desc = "this is a test card",
     idBoard = "798dsf37989",
@@ -36,7 +38,7 @@ object TestCardData {
       |	},
       |	"checkItemStates" : [],
       |	"closed" : ${card.closed},
-      |	"dateLastActivity" : "2013-06-21T08:00:21.412Z",
+      |	"dateLastActivity" : "${card.dateLastActivity}",
       |	"desc" : "${card.desc}",
       |	"descData" : null,
       |	"due" : null,

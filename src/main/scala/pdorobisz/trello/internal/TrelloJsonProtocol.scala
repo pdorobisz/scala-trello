@@ -7,6 +7,7 @@ import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import pdorobisz.trello.data.{TrelloObject, Card}
 
 import MediaTypes._
+import com.fasterxml.jackson.datatype.joda.JodaModule
 
 object TrelloJsonProtocol {
 
@@ -15,6 +16,7 @@ object TrelloJsonProtocol {
   private val mapper = new ObjectMapper()
     .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
     .registerModule(DefaultScalaModule)
+    .registerModule(new JodaModule())
 
   private def createUnmarshaller[T <: TrelloObject](clazz: Class[T]): Unmarshaller[T] =
     Unmarshaller[T](ContentTypeRange(`application/json`)) {
