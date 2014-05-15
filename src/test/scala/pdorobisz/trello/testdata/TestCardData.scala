@@ -1,6 +1,6 @@
 package pdorobisz.trello.testdata
 
-import pdorobisz.trello.data.{CardLabel, Card}
+import pdorobisz.trello.data.{CheckItemState, Badge, Label, Card}
 import org.joda.time.DateTime
 
 object TestCardData {
@@ -14,14 +14,17 @@ object TestCardData {
     due = DateTime.parse("2014-05-14T11:15:00.000Z"),
     idBoard = "798dsf37989",
     idChecklists = Seq("qw3", "er3"),
-    labels = Seq(CardLabel("green", "green label name"), CardLabel("yellow", "yellow label name")),
+    checkItemStates = Seq(CheckItemState("430e34", "complete"), CheckItemState("5e38e9", "complete")),
+    labels = Seq(Label("green", "green label name"), Label("yellow", "yellow label name")),
     idList = "6yui9087y",
     idMembers = Seq("iu876tyu"),
     idShort = 78,
     manualCoverAttachment = false,
     pos = 22345,
     shortUrl = "https://trello.com/c/uNd3s",
-    url = "https://trello.com/c/uNd3s/78-test-card"
+    url = "https://trello.com/c/uNd3s/78-test-card",
+    badges = Badge(votes = 1, viewingMemberVoted = false, subscribed = false, fogbugz = "", checkItems = 3, checkItemsChecked = 2,
+      comments = 1, attachments = 2, description = true, due = DateTime.parse("2014-05-14T11:15:00.000Z"))
   )
 
   val json =
@@ -29,18 +32,25 @@ object TestCardData {
       {
       |	"id" : "${card.id}",
       |	"badges" : {
-      |		"votes" : 0,
-      |		"viewingMemberVoted" : false,
-      |		"subscribed" : false,
-      |		"fogbugz" : "",
-      |		"checkItems" : 0,
-      |		"checkItemsChecked" : 0,
-      |		"comments" : 0,
-      |		"attachments" : 0,
-      |		"description" : true,
-      |		"due" : null
+      |		"votes" : ${card.badges.votes},
+      |		"viewingMemberVoted" : ${card.badges.viewingMemberVoted},
+      |		"subscribed" : ${card.badges.subscribed},
+      |		"fogbugz" : "${card.badges.fogbugz}",
+      |		"checkItems" : ${card.badges.checkItems},
+      |		"checkItemsChecked" : ${card.badges.checkItemsChecked},
+      |		"comments" : ${card.badges.comments},
+      |		"attachments" : ${card.badges.attachments},
+      |		"description" : ${card.badges.description},
+      |		"due" : "${card.badges.due}"
       |	},
-      |	"checkItemStates" : [],
+      |	"checkItemStates" : [{
+			|			"idCheckItem" : "${card.checkItemStates(0).idCheckItem}",
+			|			"state" : "${card.checkItemStates(0).state}"
+		  |   }, {
+			|			"idCheckItem" : "${card.checkItemStates(1).idCheckItem}",
+			|			"state" : "${card.checkItemStates(1).state}"
+		  |   }
+      | ],
       |	"closed" : ${card.closed},
       |	"dateLastActivity" : "${card.dateLastActivity}",
       |	"desc" : "${card.desc}",
@@ -54,11 +64,11 @@ object TestCardData {
       |	"idAttachmentCover" : null,
       |	"manualCoverAttachment" : ${card.manualCoverAttachment},
       |	"labels" : [{
-      |			"color" : "green",
-      |			"name" : "green label name"
+      |			"color" : "${card.labels(0).color}",
+      |			"name" : "${card.labels(0).name}"
       |		}, {
-      |			"color" : "yellow",
-      |			"name" : "yellow label name"
+      |			"color" : "${card.labels(1).color}",
+      |			"name" : "${card.labels(1).name}"
       |		}
       |	],
       |	"name" : "${card.name}",
