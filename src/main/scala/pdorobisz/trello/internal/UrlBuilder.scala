@@ -15,3 +15,7 @@ object UrlBuilder {
 
   def apply(appKey: String, token: String): UrlBuilder = new UrlBuilder(appKey, token)
 }
+
+object ResourceNames {
+  val Cards = "cards"
+}

@@ -1,29 +1,43 @@
 package pdorobisz.trello
 
 import org.specs2.mutable._
-import scala.concurrent.Future
-import pdorobisz.trello.data.Card
 import pdorobisz.trello.testdata.TestCardData
+import pdorobisz.trello.internal.ResourceNames._
+import pdorobisz.trello.internal.UrlBuilder._
+import spray.http.{StatusCodes, HttpMethods}
+import pdorobisz.trello.TrelloSpecHelper._
 
-class TrelloSpec extends Specification with TrelloSpecHelper {
+class TrelloSpec extends Specification {
 
   private val cardId = "u34uf93"
 
-  private val trello = new Trello(appKey, token) {
-    override def sendReceiveFunc() = createSendReceiveFunc(TestCardData.json)
+  "getCard" should {
+    "create request" in new TrelloContext {
+      val trello = createTrello(StatusCodes.OK)
+      trello.getCard(cardId)
+      val expectedUrl = s"$apiUrl/$apiVersion/$Cards/$cardId?key=$appKey&token=$token"
+      createdHttpRequest must beRequest(HttpMethods.GET, expectedUrl)
+    }
+    "return card" in new TrelloContext {
+      val trello = createTrello(StatusCodes.OK, TestCardData.json)
+      trello.getCard(cardId) must be_==(TestCardData.card).await
+    }
   }
 
-  "Trello instance" should {
-    val future: Future[Card] = trello.getCard(cardId)
-
-    "create card request" in {
-      import pdorobisz.trello.internal.UrlBuilder._
-      val expectedUrl = s"$apiUrl/$apiVersion/cards/$cardId?key=$appKey&token=$token"
-      requestedUri.toString must be equalTo expectedUrl
+  "deleteCard" should {
+    "create request" in new TrelloContext {
+      val trello = createTrello(StatusCodes.OK)
+      trello.deleteCard(cardId)
+      val expectedUrl = s"$apiUrl/$apiVersion/$Cards/$cardId?key=$appKey&token=$token"
+      createdHttpRequest must beRequest(HttpMethods.DELETE, expectedUrl)
     }
-    "return card" in {
-      val receivedCard: Card = awaitResult(future)
-      receivedCard must be equalTo TestCardData.card
+    "return true when card was deleted" in new TrelloContext {
+      val trello = createTrello(StatusCodes.OK)
+      trello.deleteCard(cardId) must be_==(true).await
+    }
+    "return false when card was not found" in new TrelloContext {
+      val trello = createTrello(StatusCodes.NotFound)
+      trello.deleteCard(cardId) must be_==(false).await
     }
   }
 }

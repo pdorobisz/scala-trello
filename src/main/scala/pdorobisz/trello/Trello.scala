@@ -4,12 +4,17 @@ import akka.actor.ActorSystem
 import pdorobisz.trello.internal.UrlBuilder
 import scala.concurrent.Future
 import spray.client.pipelining._
-import spray.http.HttpRequest
+import spray.http._
 import pdorobisz.trello.data._
+import pdorobisz.trello.internal.ResourceNames._
+import spray.httpx.UnsuccessfulResponseException
+import spray.http.HttpRequest
+import spray.http.HttpResponse
 
 class Trello(appKey: String, token: String, implicit val actorSystem: ActorSystem = ActorSystem()) {
 
   import pdorobisz.trello.internal.TrelloJsonProtocol._
+
   import actorSystem.dispatcher
 
   val urlBuilder = UrlBuilder(appKey, token)
@@ -18,9 +23,21 @@ class Trello(appKey: String, token: String, implicit val actorSystem: ActorSyste
 
   def getCard(id: String): Future[Card] = {
     val pipeline: HttpRequest => Future[Card] = sendReceiveFunc ~> unmarshal[Card]
-    val url = urlBuilder.build("cards", id)
+    val url = urlBuilder.build(Cards, id)
     pipeline(Get(url))
   }
+
+  def deleteCard(id: String): Future[Boolean] = {
+    val pipeline: HttpRequest => Future[Boolean] = sendReceiveFunc() ~> checkIfExists
+    val url = urlBuilder.build(Cards, id)
+    pipeline(Delete(url))
+  }
+
+  private def checkIfExists: HttpResponse ⇒ Boolean =
+    response ⇒
+      if (response.status == StatusCodes.OK) true
+      else if (response.status == StatusCodes.NotFound) false
+      else throw new UnsuccessfulResponseException(response)
 }
 
 object Trello {
