@@ -18,4 +18,5 @@ object UrlBuilder {
 
 object ResourceNames {
   val Cards = "cards"
+  val Checklists = "checklists"
 }

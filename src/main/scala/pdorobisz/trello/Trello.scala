@@ -27,9 +27,16 @@ class Trello(appKey: String, token: String, implicit val actorSystem: ActorSyste
     pipeline(Get(url))
   }
 
-  def deleteCard(id: String): Future[Boolean] = {
+  def deleteCard(id: String): Future[Boolean] = deleteResource(Cards, id)
+
+  def deleteChecklist(id: String): Future[Boolean] = deleteResource(Checklists, id)
+
+
+  //////////////////////////////////////////////////////////////////////////////////
+
+  private def deleteResource(resourceName: String, id: String): Future[Boolean] = {
     val pipeline: HttpRequest => Future[Boolean] = sendReceiveFunc() ~> checkIfExists
-    val url = urlBuilder.build(Cards, id)
+    val url = urlBuilder.build(resourceName, id)
     pipeline(Delete(url))
   }
 

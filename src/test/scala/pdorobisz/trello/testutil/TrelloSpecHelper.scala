@@ -1,4 +1,4 @@
-package pdorobisz.trello
+package pdorobisz.trello.testutil
 
 import spray.http._
 import spray.http.HttpRequest

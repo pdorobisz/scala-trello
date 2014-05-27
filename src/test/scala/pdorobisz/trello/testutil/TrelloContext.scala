@@ -1,4 +1,4 @@
-package pdorobisz.trello
+package pdorobisz.trello.testutil
 
 import spray.http._
 import org.specs2.mock.Mockito
@@ -7,6 +7,7 @@ import spray.client.pipelining._
 import spray.http.HttpRequest
 import spray.http.HttpResponse
 import org.specs2.specification.Scope
+import pdorobisz.trello.Trello
 
 
 trait TrelloContext extends Scope with Mockito {
