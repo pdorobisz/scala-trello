@@ -7,7 +7,7 @@ import pdorobisz.trello.internal.UrlBuilder._
 import spray.http.{StatusCodes, HttpMethods}
 import pdorobisz.trello.TrelloSpecHelper._
 
-class TrelloSpec extends Specification {
+class TrelloCardsSpec extends Specification {
 
   private val cardId = "u34uf93"
 
